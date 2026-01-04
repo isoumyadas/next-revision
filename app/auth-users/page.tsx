@@ -2,7 +2,9 @@ import { logOut } from "@/auth/nextjs/action";
 import { getCurrentUser } from "@/auth/nextjs/currentUser";
 
 export default async function AuthUsers() {
-  const fullUser = await getCurrentUser();
+  const fullUser = await getCurrentUser({
+    withFullUser: true,
+  });
 
   return (
     <>
@@ -16,8 +18,8 @@ export default async function AuthUsers() {
         </button>
       </div>
       <div className="p-2 rounded-xl bg-gray-500 mt-2">
-        <h1 className="text-blue-800 font-bold">{fullUser?.id}</h1>
-        <p className="text-black font-bold">{fullUser?.role}</p>
+        <h1 className="text-blue-800 font-bold text-4xl">{fullUser?.name}</h1>
+        <p className="text-black font-bold">{fullUser?.email}</p>
       </div>
     </>
   );

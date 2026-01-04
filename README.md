@@ -179,7 +179,8 @@
      - Don't use them for fetching data.
    - Don't use streaming data (AI) with server actions use route handlers.
 
+---
+
 <!-- Authentication -->
 
-1. Why scrypt is prefferd over bcrypt? and what is used in production?
-   -
+1. ## Why scrypt is prefferd over bcrypt? and what is used in production?
