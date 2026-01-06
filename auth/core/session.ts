@@ -72,6 +72,22 @@ export async function updateUserSessionData(
   });
 }
 
+export async function updateUserSessionExpiration(
+  cookies: Pick<Cookies, "get" | "set">
+) {
+  const sessionId = cookies.get(COOKIE_SESSION_KEY)?.value;
+  if (sessionId == null) return null;
+
+  const user = await getUserSessionById(sessionId);
+  if (user == null) return;
+
+  await redisClient.set(`session${sessionId}`, user, {
+    ex: SESSION_EXPIRATION_SECONDS,
+  });
+
+  setCookie(sessionId, cookies);
+}
+
 function setCookie(sessionId: string, cookies: Pick<Cookies, "set">) {
   cookies.set(COOKIE_SESSION_KEY, sessionId, {
     secure: true, // always encrypted
