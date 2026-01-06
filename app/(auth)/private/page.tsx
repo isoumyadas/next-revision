@@ -12,7 +12,10 @@ export default async function PrivatePage() {
       <div className="flex gap-2">
         <ToggleRoleButton />
         <button>
-          <Link href="/" className="cursor-pointer">
+          <Link
+            href="/auth-users"
+            className="cursor-pointer bg-amber-500 hover:bg-amber-700 font-bold rounded-2xl p-2"
+          >
             Home
           </Link>
         </button>
