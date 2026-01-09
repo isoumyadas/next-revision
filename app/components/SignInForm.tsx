@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn } from "@/auth/nextjs/action";
+import { oAuthSignIn, signIn } from "@/auth/nextjs/action";
 import { useState } from "react";
 
 const SignInForm = () => {
@@ -27,6 +27,22 @@ const SignInForm = () => {
   return (
     <div>
       <form action={onFormaDataHandler}>
+        <div className="flex gap-3">
+          <button
+            className="p-2 rounded-2xl bg-blue-600 font-bold text-white cursor-pointer hover:bg-blue-800"
+            type="button"
+            onClick={async () => await oAuthSignIn("discord")}
+          >
+            Discord
+          </button>
+          <button
+            className="p-2 rounded-2xl bg-gray-800 font-bold text-white cursor-pointer hover:bg-gray-950"
+            type="button"
+            onClick={async () => await oAuthSignIn("github")}
+          >
+            Github
+          </button>
+        </div>
         <input placeholder="Email" name="email" type="email" />
         <input placeholder="Password" name="password" type="password" />
         <button type="submit">

@@ -19,6 +19,13 @@ enum Role {
   ADMIN
 }
 
+// export const oAuthProviders = ["discord", "github", "google"] as const
+enum OAuthProviders {
+  GOOGLE
+  GITHUB
+  DISCORD
+}
+
 
 model User {
   id     String @id @default(uuid())
@@ -31,9 +38,23 @@ model Person {
   id        String   @id @default(uuid())
   name      String
   email     String   @unique
-  password  String
-  salt      String
+  password  String?
+  salt      String?
   role      Role     @default(USER)
+  oAuthAccounts UserOAuthAccountTable[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model UserOAuthAccountTable {
+  userId                              String   
+  user                Person                                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider            OAuthProviders 
+  providerAccountId                   String                     
+  createdAt                           DateTime                   @default(now())
+  updatedAt                           DateTime                   @updatedAt
+
+ // Now, a user is uniquely identified by the combination of "Google" + "12345", preventing duplicates.
+  @@id([providerAccountId, provider])
+
 }
