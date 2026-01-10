@@ -9,6 +9,16 @@ import {
 } from "../core/passwordHasher";
 import { createUserSession, removeUserSession } from "../core/session";
 import { cookies } from "next/headers";
+import { getOAuthClient } from "../core/oauth/base";
+import { OAuthProviders } from "@/generated/prisma/enums";
+
+// export enum OAuthProviders {
+//   google,
+//   github,
+//   discord,
+// }
+
+export type OAuthProvider = "discord" | "github" | "google";
 
 export async function logOut() {
   await removeUserSession(await cookies());
@@ -39,7 +49,7 @@ export async function signIn(formData: FormData) {
     },
   });
 
-  if (!user)
+  if (!user || !user.password || !user.salt)
     return {
       status: "error",
       message:
@@ -104,6 +114,13 @@ export async function signUp(formData: FormData) {
   }
 
   redirect("/auth-users");
+}
+
+export async function oAuthSignIn(provider: OAuthProviders) {
+  // Get oAuth url
+  const oAuthClient = getOAuthClient(provider);
+
+  redirect(oAuthClient.createAuthUrl(await cookies()));
 }
 
 /**
