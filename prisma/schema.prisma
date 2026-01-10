@@ -21,9 +21,9 @@ enum Role {
 
 // export const oAuthProviders = ["discord", "github", "google"] as const
 enum OAuthProviders {
-  GOOGLE
-  GITHUB
-  DISCORD
+  google
+  github
+  discord
 }
 
 
